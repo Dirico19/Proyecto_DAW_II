@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container mt-3">
+		<h1 class="text-primary" th:text="${titulo}"></h1>
+		<hr>
+		<div th:replace="layout/layout :: msg-success"></div>
+		<div th:replace="layout/layout :: msg-danger"></div>
+		<div th:replace="layout/layout :: msg-warning"></div>
+		<div th:replace="layout/layout :: msg-info"></div>
+		<div class="row mb-3">
+			<form th:action="@{/prestamo/busqueda}" method="get" class="row">
+				<label for="fecha" class="col-form-label col-sm-auto">Ingrese una fecha de Préstamo</label>
+				<div class="col-sm-2">
+					<input type="date" class="form-control" th:name="fecha"/>
+				</div>
+				<div class="col-sm-auto">
+					<button class="btn btn-primary" type="submit">Buscar</button>
+				</div>
+			</form>
+		</div>
+		<table class="table table-striped">
+			<thead class="table-primary">
+				<tr>
+					<th>Codigo</th>
+					<th sec:authorize="hasAnyAuthority('Administrador','Mantenimiento')">socio</th>
+					<th>Libro</th>
+					<th>Fecha de Prestamos</th>
+					<th>Fecha Limite</th>
+					<th>Fecha de devolución</th>
+					<th>Estado</th>	
+					<th>Mora</th>
+					<th sec:authorize="hasAnyAuthority('Socio')">Acciones</th>				
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="prestamo: ${prestamos}">
+					<td th:text="${prestamo.id}"></td>
+					<td sec:authorize="hasAnyAuthority('Administrador','Mantenimiento')" th:text="${prestamo.socio.nombre} + ' ' + ${prestamo.socio.apellido}"></td>
+					<td th:text="${prestamo.libro.titulo}"></td>
+					<td th:text="${prestamo.fecPrestamo}"></td>
+					<td th:text="${prestamo.fecLimite}"></td>
+					<td th:text="${prestamo.fecDevolucion}"></td>	
+					<td th:text="${prestamo.estado}"></td>
+					<td th:text="${prestamo.mora}"></td>
+					<td sec:authorize="hasAnyAuthority('Socio')">
+						<a class="btn btn-warning btn-sm"
+							th:href="@{/prestamo/devolver/} + ${prestamo.id}"
+							th:text="'Devolver'">
+						</a>
+						<a class="btn btn-danger btn-sm"
+							th:href="@{/pago/realizar/} + ${prestamo.id}"
+							th:text="'Pagar Mora'">
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

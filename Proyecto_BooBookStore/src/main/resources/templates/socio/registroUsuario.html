@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+	
+	<div class="container mt-3">
+		<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card text-bg-light">
+				<div class="card-header text-bg-secondary h4" th:text="${titulo}"></div>
+				<div class="card-body">
+					<form th:action="@{/socio/registroUsuario}" th:object="${usuario}" method="post">
+						<div class="mb-3">
+							<label for="nombre" class="form-label">Nombre de Usuario</label>
+							<input type="text" class="form-control" th:field="*{nombre}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="contraseña" class="form-label">Contraseña</label>
+							<input type="password" class="form-control" th:field="*{contraseña}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('contraseña')}" th:errors="*{contraseña}"></div>
+						</div>
+						<div>
+							<button type="submit" class="btn btn-success">Registrar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		</div>
+		
+	</div>
+	
+	<footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+</html>

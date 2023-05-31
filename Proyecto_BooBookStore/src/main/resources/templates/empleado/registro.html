@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+	
+	<div class="container mt-3">
+		<div class="row justify-content-center">
+		<div class="col-md-6 mb-3">
+			<div class="card text-bg-light">
+				<div class="card-header text-bg-secondary h4" th:text="${titulo}"></div>
+				<div class="card-body">
+					<form th:action="@{/empleado/guardar}" th:object="${empleado}" method="post">
+						<div class="mb-3">
+							<label for="nombre" class="form-label">Nombre</label>
+							<input type="text" class="form-control" th:field="*{nombre}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="apellido" class="form-label">Apellido</label>
+							<input type="text" class="form-control" th:field="*{apellido}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="celular" class="form-label">Celular</label>
+							<input type="number" class="form-control" th:field="*{celular}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('celular')}" th:errors="*{celular}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="fecContrato" class="form-label">Fecha de Contrato</label>
+							<input type="date" class="form-control" th:field="*{fecContrato}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('fecContrato')}" th:errors="*{fecContrato}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="cargo" class="form-label">Cargo</label>
+							<input type="text" class="form-control" th:field="*{cargo}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('cargo')}" th:errors="*{cargo}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="sueldo" class="form-label">Sueldo</label>
+							<input type="number" class="form-control" th:field="*{sueldo}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('sueldo')}" th:errors="*{sueldo}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="correo" class="form-label">Correo</label>
+							<input type="text" class="form-control" th:field="*{correo}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="usuario" class="form-label">Rol de Usuario</label>
+							<select class="form-select" th:field="*{usuario}">
+								<option value="0">-- Seleccione --</option>
+								<option value="1">Administrador</option>
+								<option value="2">Mantenimiento</option>
+							</select>
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"></div>
+						</div>
+						<div>
+							<a th:href="@{/empleado/listado}" class="btn btn-info">Volver</a>
+							<button type="submit" class="btn btn-success">Guardar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		</div>
+		
+	</div>
+	
+	<footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container mt-3">
+		<h1 class="text-primary" th:text="${titulo}"></h1>
+		<hr>
+		<div th:replace="layout/layout :: msg-success"></div>
+		<div th:replace="layout/layout :: msg-danger"></div>
+		<div th:replace="layout/layout :: msg-warning"></div>
+		<div th:replace="layout/layout :: msg-info"></div>
+		<div class="row mb-3">
+			<div class="col-sm-auto">
+				<a th:href="@{/empleado/registro}" class="btn btn-primary"><span th:text="'Nuevo Empleado'"></span> <i class="bi bi-plus-circle"></i></a>
+			</div>
+		</div>
+		<table class="table table-striped">
+			<thead class="table-primary">
+				<tr>
+					<th>Id</th>
+					<th>Nombre</th>
+					<th>Apellido</th>
+					<th>Celular</th>
+					<th>Contrato</th>
+					<th>Cargo</th>
+					<th>Sueldo</th>
+					<th>Correo</th>
+					<th>Usuario</th>
+					<th>Acciones</th>					
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="e: ${empleados}">
+					<td th:text="${e.id}"></td>
+					<td th:text="${e.nombre}"></td>
+					<td th:text="${e.apellido}"></td>
+					<td th:text="${e.celular}"></td>
+					<td th:text="${#dates.format(e.fecContrato,'dd/MM/yyyy')}"></td>
+					<td th:text="${e.cargo}"></td>
+					<td th:text="${e.sueldo}"></td>
+					<td th:text="${e.correo}"></td>
+					<td th:text="${e.usuario==null?'-':e.usuario.nombre}"></td>
+					<td>
+						<a class="btn btn-warning btn-sm"
+							th:href="@{/empleado/editar/} + ${e.id}" 
+							th:text="'Editar'">
+						</a>
+						<a class="btn btn-danger btn-sm"
+							th:href="@{/empleado/eliminar/} + ${e.id}" 
+							th:text="'Eliminar'" onclick="return confirm('¿Seguro que desea eliminar este registro?')">
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div th:replace="paginator-nav :: paginator"></div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

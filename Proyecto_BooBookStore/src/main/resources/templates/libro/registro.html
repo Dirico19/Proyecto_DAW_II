@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	
+	<div class="container mt-3">
+		<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card text-bg-light">
+				<div class="card-header text-bg-secondary h4" th:text="${titulo}"></div>
+				<div class="card-body">
+					<form th:action="@{/libro/guardar}" th:object="${libro}" method="post" enctype="multipart/form-data">
+						<div class="mb-3">
+							<label for="titulo" class="form-label">Título</label>
+							<input type="text" class="form-control" th:field="*{titulo}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="autor" class="form-label">Autor</label>
+							<input type="text" class="form-control" th:field="*{autor}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('autor')}" th:errors="*{autor}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="anio" class="form-label">Año</label>
+							<input type="number" class="form-control" th:field="*{anio}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('anio')}" th:errors="*{anio}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="categoria" class="form-label">Categoría</label>
+							<select class="form-select" th:field="*{categoria}">
+								<option value="">-- Seleccione --</option>
+								<option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.descripcion}"></option>
+							</select>
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="stock" class="form-label">Stock</label>
+							<input type="number" class="form-control" th:field="*{stock}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="file" class="form-label">Foto</label>
+							<input type="file" name="file" class="form-control" />
+						</div>
+						<div class="mb-3">
+							<a th:href="@{/libro/listado}" class="btn btn-info">Volver</a>
+							<button type="submit" class="btn btn-success">Guardar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		</div>		
+	</div>	
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

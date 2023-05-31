@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>			
+	<div class="container">
+		<h1 align="center" class="mt-3" th:text="${titulo} + ', ' + ${session.login.nombre}"></h1>
+		
+		<div th:replace="layout/layout :: msg-success"></div>
+		<div th:replace="layout/layout :: msg-danger"></div>
+						
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

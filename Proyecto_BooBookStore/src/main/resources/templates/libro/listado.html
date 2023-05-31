@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container mt-3">
+		<h1 class="text-primary" th:text="${titulo}"></h1>
+		<hr>
+		<div th:replace="layout/layout :: msg-success"></div>
+		<div th:replace="layout/layout :: msg-danger"></div>
+		<div th:replace="layout/layout :: msg-warning"></div>
+		<div th:replace="layout/layout :: msg-info"></div>
+		<div class="row mb-3">
+			<div class="col-sm-auto" sec:authorize="hasAnyAuthority('Administrador','Mantenimiento')">
+				<a th:href="@{/libro/registro}" class="btn btn-primary"><span th:text="'Nuevo Libro'"></span> <i class="bi bi-plus-circle"></i></a>
+			</div>
+		</div>
+		<table class="table table-striped">
+			<thead class="table-primary">
+				<tr>
+					<th>Id</th>
+					<th>Foto</th>
+					<th>Titulo</th>
+					<th>Autor</th>
+					<th>Año</th>
+					<th>Categoria</th>
+					<th>Stock</th>
+					<th>Acción</th>					
+				</tr>
+			</thead>
+			<tbody class="align-middle">
+				<tr th:each="libro: ${libros}">
+					<td th:text="${libro.id}"></td>
+					<td>
+						<img class="img-thumbnail rounded float-left"
+							style="width: 50px;" th:src="@{'/uploads/' + ${libro.foto}}"
+							/>
+					</td>
+					<td th:text="${libro.titulo}"></td>
+					<td th:text="${libro.autor}"></td>
+					<td th:text="${libro.anio}"></td>
+					<td th:text="${libro.categoria.descripcion}"></td>
+					<td th:text="${libro.stock}"></td>					 
+					<td>
+						<a class="btn btn-success btn-sm" sec:authorize="hasAnyAuthority('Socio')"
+							th:href="@{/prestamo/solicitar/} + ${libro.id}"
+							th:text="'Solicitar'">
+						</a>
+						<a class="btn btn-warning btn-sm" sec:authorize="hasAnyAuthority('Administrador','Mantenimiento')"
+							th:href="@{/libro/editar/} + ${libro.id}" 
+							th:text="'Editar'">
+						</a>
+						<a class="btn btn-danger btn-sm" sec:authorize="hasAnyAuthority('Administrador','Mantenimiento')"
+							th:href="@{/libro/eliminar/} + ${libro.id}" 
+							th:text="'Eliminar'" onclick="return confirm('¿Seguro que desea eliminar este registro?')">
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div th:replace="paginator-nav :: paginator"></div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

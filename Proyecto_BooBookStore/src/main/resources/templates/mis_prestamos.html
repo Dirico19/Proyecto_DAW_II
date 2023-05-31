@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container">
+		<table>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Titulo</th>
+					<th>Autor</th>
+					<th>Categoria</th>
+					<th>Stock</th>
+					<th>Devolución</th>
+				</tr>
+			</thead>			
+			<tbody>
+				<tr th:each="libro: ${libros}">
+					<td th:text="${libro.id}"></td>
+					<td th:text="${libro.titulo}"></td>
+					<td th:text="${libro.autor}"></td>
+					<td th:text="${libro.categoria}"></td>
+					<td th:text="${libro.stock}"></td>
+					<td><a class="btn btn-success btn-xs"
+						th:href="@{/form/} + ${libro.id}" th:text="'Editar'"></a></td>					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

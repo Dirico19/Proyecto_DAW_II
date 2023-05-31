@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+	
+	<div class="container mt-3">
+		<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card text-bg-light">
+				<div class="card-header text-bg-secondary h4" th:text="${titulo}"></div>
+				<div class="card-body">
+					<form th:action="@{/usuario/cambiarContraseña}" method="post">
+					
+						<div th:replace="layout/layout :: msg-success"></div>
+						<div th:replace="layout/layout :: msg-danger"></div>
+					
+						<div class="mb-3">
+							<label for="actual" class="form-label">Contraseña Actual</label>
+							<input type="password" class="form-control" name="actual">
+						</div>
+						<div class="mb-3">
+							<label for="nueva" class="form-label">Nueva Contraseña</label>
+							<input type="password" class="form-control" name="nueva">
+						</div>
+						<div>
+							<button type="submit" class="btn btn-success">Guardar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		</div>
+		
+	</div>
+	
+	<footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+</html>

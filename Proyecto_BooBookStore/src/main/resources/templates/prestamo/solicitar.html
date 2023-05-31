@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	
+<div class="container mt-3">
+		<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card text-bg-light">
+				<div class="card-header text-bg-secondary h4" th:text="${titulo}"></div>
+				<div class="card-body">
+					<form th:action="@{/prestamo/confirmar}" th:object="${libro}" method="post">
+						<div class="mb-3">
+							<label for="titulo" class="form-label">Título</label>
+							<input type="text" class="form-control" th:field="*{titulo}" disabled>
+						</div>
+						<div class="mb-3">
+							<label for="autor" class="form-label">Autor</label>
+							<input type="text" class="form-control" th:field="*{autor}" disabled>
+						</div>
+						<div class="mb-3">
+							<label for="anio" class="form-label">Año</label>
+							<input type="number" class="form-control" th:field="*{anio}" disabled>
+						</div>
+						<div class="mb-3">
+							<label for="categoria" class="form-label">Categoría</label>
+							<input type="text" class="form-control" th:field="*{categoria.descripcion}" disabled>
+						</div>
+						<div class="mb-3">
+							<label for="stock" class="form-label">Stock</label>
+							<input type="number" class="form-control" th:field="*{stock}" disabled>
+						</div>
+						<div class="mb-3">
+							<label for="foto" class="form-label">Foto</label>
+							<div>
+								<img class="rounded mx-auto d-block"
+								style="width: 250px;" th:src="@{'/uploads/' + ${libro.foto}}"/>
+							</div>
+						</div>						
+						<div class="mb-3 d-flex justify-content-around">							
+							<a th:href="@{/libro/listado}" class="btn btn-info">Volver</a>
+							<button type="submit" class="btn btn-success">Confirmar Préstamo</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

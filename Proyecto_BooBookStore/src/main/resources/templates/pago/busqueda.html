@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container mt-3">
+		<h1 class="text-primary" th:text="${titulo}"></h1>
+		<hr>
+		<div th:replace="layout/layout :: msg-success"></div>
+		<div th:replace="layout/layout :: msg-danger"></div>
+		<div th:replace="layout/layout :: msg-warning"></div>
+		<div th:replace="layout/layout :: msg-info"></div>
+		<div class="row mb-3">
+			<form th:action="@{/pago/busqueda}" method="get" class="row">
+				<label for="fecha" class="col-form-label col-sm-auto">Ingrese una fecha de Pago</label>
+				<div class="col-sm-2">
+					<input type="date" class="form-control" th:name="fecha"/>
+				</div>
+				<div class="col-sm-auto">
+					<button class="btn btn-primary" type="submit">Buscar</button>
+				</div>
+			</form>
+		</div>
+		<table class="table table-striped">
+			<thead class="table-primary">
+				<tr>
+					<th>Codigo</th>
+					<th sec:authorize="hasAnyAuthority('Administrador','Mantenimiento')"  >Socio</th>
+					<th>fecha de Préstamo</th>					
+					<th>fecha de Pago</th>
+					<th>fecha de Devolución</th>										
+					<th>monto</th>
+											
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="pago: ${pagos}">
+					<td th:text="${pago.id}"></td>
+					<td sec:authorize="hasAnyAuthority('Administrador','Mantenimiento')" th:text="${pago.prestamo.socio.nombre} + ' ' + ${pago.prestamo.socio.apellido}"></td>
+					<td th:text="${pago.prestamo.fecPrestamo}"></td>
+					<td th:text="${pago.fecPago}"></td>
+					<td th:text="${pago.prestamo.fecDevolucion}"></td>
+					<td th:text="${pago.monto}"></td></tr>
+			</tbody>
+		</table>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	
+<div class="container mt-3">
+		<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card text-bg-light">
+				<div class="card-header text-bg-secondary h4" th:text="${titulo}"></div>
+				<div class="card-body">
+					<form th:action="@{/prestamo/devolver}" th:object="${prestamo}" method="post">
+						<div class="mb-3">
+							<label for="socio" class="form-label">Socio</label>
+							<input type="text" class="form-control" name="socio" th:value="*{socio.nombre} + ' ' + *{socio.apellido}" disabled>
+						</div>
+						<div class="mb-3">
+							<label for="libro" class="form-label">Libro</label>
+							<input type="text" class="form-control" name="libro" th:value="*{libro.titulo}" disabled>
+						</div>
+						<div class="mb-3">
+							<label for="fecPrestamo" class="form-label">Fecha de Prestamo</label>
+							<input type="date" class="form-control" th:field="*{fecPrestamo}" disabled>
+						</div>
+						<div class="mb-3">
+							<label for="fecLimite" class="form-label">Fecha Límite</label>
+							<input type="date" class="form-control" th:field="*{fecLimite}" disabled>
+						</div>
+						<div class="mb-3">
+							<a th:href="@{/prestamo/listado}" class="btn btn-info">Volver</a>
+							<button type="submit" class="btn btn-success">Confirmar Devolución</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

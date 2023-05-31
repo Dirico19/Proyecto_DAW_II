@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+	
+	<div class="container mt-3">
+		<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card text-bg-light">
+				<div class="card-header text-bg-secondary h4" th:text="${titulo}"></div>
+				<div class="card-body">
+					<form th:action="@{/socio/registroDatos}" th:object="${socio}" method="post">
+						<div class="mb-3">
+							<label for="nombre" class="form-label">Nombre</label>
+							<input type="text" class="form-control" th:field="*{nombre}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="apellido" class="form-label">Apellido</label>
+							<input type="text" class="form-control" th:field="*{apellido}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="dni" class="form-label">DNI</label>
+							<input type="text" class="form-control" th:field="*{dni}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="fecNacimiento" class="form-label">Fecha de Nacimiento</label>
+							<input type="date" class="form-control" th:field="*{fecNacimiento}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('fecNacimiento')}" th:errors="*{fecNacimiento}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="celular" class="form-label">Celular</label>
+							<input type="number" class="form-control" th:field="*{celular}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('celular')}" th:errors="*{celular}"></div>
+						</div>
+						<div class="mb-3">
+							<label for="correo" class="form-label">Correo</label>
+							<input type="text" class="form-control" th:field="*{correo}">
+							<div class="form-text text-danger" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></div>
+						</div>
+						<div>
+							<button type="submit" class="btn btn-success">Siguiente</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		</div>
+		
+	</div>
+	
+	<footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+</html>
