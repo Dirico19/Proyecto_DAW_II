@@ -1,0 +1,15 @@
+usuarios admin
+--------------
+jlujan - jesus123
+jfernandez - jose123
+
+usuarios mantenimiento
+---------------------
+mantonio - marco123
+suromero - susan123
+
+usuarios socios
+---------------
+croque - cesar123
+rcastro - ramon123
+jcastillo - juan123
