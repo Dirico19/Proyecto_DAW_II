@@ -42,7 +42,7 @@ public class InicioController {
 	
 	@RequestMapping(value="/index")
 	public String index(Model model, Authentication authentication) {
-		model.addAttribute("titulo", "Bienvenido a Biblos");
+		model.addAttribute("titulo", "Bienvenido a BooBook Store");
 		String rol = "";
 		for (GrantedAuthority t : authentication.getAuthorities()) {
 			rol = t.getAuthority();
