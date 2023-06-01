@@ -109,15 +109,15 @@ insert socio(nom_soc,ape_soc,dni_soc,fec_nac,fec_reg,cel_soc,cor_soc,id_usu) val
 
 insert categoria(des_cat) values('Sátira'),('Realismo'),('Fantasía'),('Ficción'),('Épico'),('Comedia');
 
-insert libro(titulo_lib,autor_lib,año_lib,id_cat,stk_lib) values
-('Don Quijote de la Mancha','Miguel de Cervantes',1605,1,20),
-('La casa de los espíritus','Isabel Allende',1982,2,15),
-('La metamorfosis','Franz Kafka',1915,3,3),
-('La Odisea','Homero',1906,5,21),
-('La Regenta','Leopoldo Alas',1884,4,13),
-('Madame Bovary','Gustave Flaubert',1856,1,18),
-('La Colmena','Camilo José Cela',1950,3,12),
-('Los viajes de Gulliver','Jonathan Swift',1726,4,9);
+insert libro(titulo_lib,autor_lib,año_lib,id_cat,stk_lib,foto) values
+('Don Quijote de la Mancha','Miguel de Cervantes',1605,1,20,'86ebbfe7-09f6-4767-a384-7476ada04cc8_don quijote.jpg'),
+('La casa de los espíritus','Isabel Allende',1982,2,15,'59b6b62d-002c-40a0-addf-617ecfc24dd1_espiritus.jpg'),
+('La metamorfosis','Franz Kafka',1915,3,3,'6e860968-5de1-457b-b8a5-bac3b82ab512_metamorfosis.jpg'),
+('La Odisea','Homero',1906,5,21,'314db12a-93ae-4905-871c-5d65b35e5bdb_odisea.jpg'),
+('La Regenta','Leopoldo Alas',1884,4,13,'185c6632-e4f4-49ad-89b1-3c0441eb6d5c_regenta.jpg'),
+('Madame Bovary','Gustave Flaubert',1856,1,18,'e2a9dc3e-617f-49c1-96d2-ab043cf2dbc7_madame bovary.jpg'),
+('La Colmena','Camilo José Cela',1950,3,12,'ac51ca3a-8973-480b-bad5-e5b2fb7cf3ad_la colmena.jpg'),
+('Los viajes de Gulliver','Jonathan Swift',1726,4,9,'17b4c651-1b7b-4279-81da-695d54ca6b99_guliver.jpg');
 
 insert prestamo(id_soc,id_lib,fec_pres,fec_limit,fec_devol,estado,mora) values
 (2,3,'2023-03-22',date_add('2023-03-22',interval 20 day),null,'Pendiente','No'),
