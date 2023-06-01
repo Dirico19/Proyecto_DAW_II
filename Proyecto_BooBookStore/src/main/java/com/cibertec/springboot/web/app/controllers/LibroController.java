@@ -131,9 +131,11 @@ public class LibroController {
 		Libro libro = libroService.findOne(id);
 		libroService.delete(id);
 		attributes.addFlashAttribute("success", "Libro eliminado correctamente.");
-		if (uploadFileService.delete(libro.getFoto())) {
-			attributes.addAttribute("info", "Foto " + libro.getFoto() + " eliminada con éxito.");
-	}
+		if (!(libro.getFoto() == null)) {
+			if (uploadFileService.delete(libro.getFoto())) {
+				attributes.addAttribute("info", "Foto " + libro.getFoto() + " eliminada con éxito.");			
+			}
+		}
 		return "redirect:/libro/listado";
 	}
 	
