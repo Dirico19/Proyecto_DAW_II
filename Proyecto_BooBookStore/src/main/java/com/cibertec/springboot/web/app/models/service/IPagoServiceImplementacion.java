@@ -1,5 +1,6 @@
 package com.cibertec.springboot.web.app.models.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,18 +45,18 @@ public class IPagoServiceImplementacion implements IPagoService {
 	}
 	
 	@Override
-	public List<Pago> findByIdSocio(int idSocio) {
-		return pagoRepository.findByIdSocio(idSocio);
+	public Page<Pago> findByIdSocio(int idSocio, Pageable pageable) {
+		return pagoRepository.findByIdSocio(idSocio, pageable);
 	}
 
 	@Override
-	public List<Pago> findByDate(String fecha) {
-		return pagoRepository.findByDate(fecha);
+	public Page<Pago> findByDate(Date fechaInicio, Date fechaFin, Pageable pageable) {
+		return pagoRepository.findByDate(fechaInicio, fechaFin, pageable);
 	}
 
 	@Override
-	public List<Pago> findByDateAndSocio(String fecha, int idSocio) {
-		return pagoRepository.findByDateAndSocio(fecha, idSocio);
+	public Page<Pago> findByDateAndSocio(Date fechaInicio, Date fechaFin, int idSocio, Pageable pageable) {
+		return pagoRepository.findByDateAndSocio(fechaInicio, fechaFin, idSocio, pageable);
 	}
 
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -65,46 +66,32 @@ public class PagoController {
 	}
 	
 	@RequestMapping(value="/listado", method = RequestMethod.GET)
-	public String listadoPagos(@RequestParam(name="page", defaultValue = "0") 
-	int page, Model model, String nueva, Authentication authentication) {
+	public String listadoPagos(@RequestParam(name="page", defaultValue = "0") int page,
+			@RequestParam(name="fechaInicio", defaultValue = "1900-01-01", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaInicio,
+			@RequestParam(name="fechaFin", defaultValue = "3000-01-01", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaFin,
+			Model model, Authentication authentication) {
 		String rol = ""; Socio socio = null;
+		Pageable pageRequest = PageRequest.of(page, 5);
+		Page<Pago> pagos = null;
+		
 		for (GrantedAuthority t : authentication.getAuthorities())
 			rol = t.getAuthority();
+		
 		if (rol.equals("Socio")) {
 			socio = (Socio) session.getAttribute("login");
-			model.addAttribute("pagos", pagoService.findByIdSocio(socio.getId()));
+			pagos = pagoService.findByDateAndSocio(fechaInicio, fechaFin, socio.getId(), pageRequest);
 			model.addAttribute("titulo", "Mis Pagos");
 		}
 		else {
-			Pageable pageRequest = PageRequest.of(page, 5);
-			Page<Pago> pagos = pagoService.findAll(pageRequest);
-			PageRender<Pago> pageRender = new PageRender<>("/pago/listado", pagos);
-			model.addAttribute("pagos", pagos);
+			pagos = pagoService.findByDate(fechaInicio, fechaFin, pageRequest);
 			model.addAttribute("titulo", "Listado de Pagos");
-			model.addAttribute("page", pageRender);
-
 		}
+		
+		PageRender<Pago> pageRender = new PageRender<>("/pago/listado", pagos);
+		model.addAttribute("pagos", pagos);
+		model.addAttribute("page", pageRender);
+		
 		return "pago/listado";
 		}
-	
-	@RequestMapping(value="/busqueda", method = RequestMethod.GET)
-	public String buscarPorFecha(@RequestParam(name="fecha", defaultValue = "false") String fecha, Model model, Authentication authentication) {
-		if (fecha != "") {
-			String rol = ""; Socio socio = null;
-			for (GrantedAuthority t : authentication.getAuthorities())
-				rol = t.getAuthority();
-			if (rol.equals("Socio")) {
-				socio = (Socio) session.getAttribute("login");
-				model.addAttribute("pagos", pagoService.findByDateAndSocio(fecha, socio.getId()));
-				model.addAttribute("titulo", "Mis Pagos");
-			}
-			else {
-				model.addAttribute("titulo", "Listado de Pagos");
-				model.addAttribute("pagos", pagoService.findByDate(fecha));	
-			}
-			
-		}
-		return "pago/busqueda";
-	}
 	
 }

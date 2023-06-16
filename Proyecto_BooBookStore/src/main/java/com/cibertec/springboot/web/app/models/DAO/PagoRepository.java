@@ -1,7 +1,9 @@
 package com.cibertec.springboot.web.app.models.DAO;
 
-import java.util.List;
+import java.util.Date;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -9,13 +11,13 @@ import com.cibertec.springboot.web.app.models.entity.Pago;
 
 public interface PagoRepository extends JpaRepository<Pago, Integer> {
 
-	@Query(value = "select pa.id_pago, pa.id_pres, pa.fec_pago, pa.monto from pago as pa inner join prestamo as pr on pr.id_pres=pa.id_pres inner join socio as s on pr.id_soc=s.id_soc where s.id_soc = ?1", nativeQuery = true)
-	  List<Pago> findByIdSocio(int idSocio);
-	
-	@Query(value = "select pa.id_pago, pa.id_pres, pa.fec_pago, pa.monto from pago as pa inner join prestamo as pr on pr.id_pres=pa.id_pres inner join socio as s on pr.id_soc=s.id_soc where pa.fec_pago  = ?1", nativeQuery = true)
-	  List<Pago> findByDate(String fecha);
-	
-	@Query(value = "select pa.id_pago, pa.id_pres, pa.fec_pago, pa.monto from pago as pa inner join prestamo as pr on pr.id_pres=pa.id_pres inner join socio as s on pr.id_soc=s.id_soc where pa.fec_pago  = ?1 and s.id_soc= ?2", nativeQuery = true)
-	  List<Pago> findByDateAndSocio(String fecha, int idSocio);
-	
+	@Query("SELECT p FROM Pago p INNER JOIN p.prestamo pr INNER JOIN pr.socio s WHERE s.id = ?1")
+	Page<Pago> findByIdSocio(int idSocio, Pageable pageable);
+
+	@Query("SELECT p FROM Pago p INNER JOIN p.prestamo pr INNER JOIN pr.socio s WHERE p.fecPago >= ?1 AND p.fecPago <= ?2")
+	Page<Pago> findByDate(Date fechaInicio, Date fechaFin, Pageable pageable);
+
+	@Query("SELECT p FROM Pago p INNER JOIN p.prestamo pr INNER JOIN pr.socio s WHERE p.fecPago = ?1 AND p.fecPago <= ?2 AND s.id = ?3")
+	Page<Pago> findByDateAndSocio(Date fechaInicio, Date fechaFin, int idSocio, Pageable pageable);
+
 }

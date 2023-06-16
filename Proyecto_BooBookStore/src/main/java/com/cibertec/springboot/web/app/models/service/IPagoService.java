@@ -1,5 +1,6 @@
 package com.cibertec.springboot.web.app.models.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -17,10 +18,10 @@ public interface IPagoService {
 	
 	public Pago findOne(int id);
 	
-	public List<Pago> findByIdSocio(int idSocio);
+	public Page<Pago> findByIdSocio(int idSocio, Pageable pageable);
 	
-	public List<Pago> findByDate(String fecha);
+	public Page<Pago> findByDate(Date fechaInicio, Date fechaFin, Pageable pageable);
 	
-	public List<Pago> findByDateAndSocio(String fecha, int idSocio);
+	public Page<Pago> findByDateAndSocio(Date fechaInicio, Date fechaFin, int idSocio, Pageable pageable);
 	
 }
