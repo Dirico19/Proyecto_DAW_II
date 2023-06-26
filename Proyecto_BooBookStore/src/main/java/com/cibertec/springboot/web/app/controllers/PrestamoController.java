@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,7 @@ import com.cibertec.springboot.web.app.models.entity.Socio;
 import com.cibertec.springboot.web.app.models.service.ILibroService;
 import com.cibertec.springboot.web.app.models.service.IPrestamoService;
 import com.cibertec.springboot.web.app.util.paginator.PageRender;
+import com.google.gson.Gson;
 
 @Controller
 @SessionAttributes(names = {"prestamo","libro","usuario"})
@@ -42,10 +45,18 @@ public class PrestamoController {
 	// Confirmación de Prestamos - Controllers
 	
 	@RequestMapping(value = "/solicitar/{idlibro}")
-	public String solicitarPrestamo(@PathVariable(value = "idlibro") Long idlibro, Model model) {
-		Libro libro = libroService.findOne(idlibro);
-		model.addAttribute("titulo", "Préstamo de Libro");
-		model.addAttribute("libro", libro);
+	public String solicitarPrestamo(@PathVariable(value = "idlibro") Long idlibro, Model model, RedirectAttributes attributes) {
+		Libro libro = null;
+		ResponseEntity<String> response = libroService.findOne(idlibro);
+		if (response.getStatusCode() == HttpStatus.OK) {
+			Gson gson = new Gson();
+			libro = gson.fromJson(response.getBody(), Libro.class);
+			model.addAttribute("titulo", "Préstamo de Libro");
+			model.addAttribute("libro", libro);
+		} else {
+			attributes.addFlashAttribute("error", "No se encontró un libro con el id indicado.");
+			return "redirect:/libro/listado";
+		}
 		
 		return "prestamo/solicitar";
 	}

@@ -2,17 +2,32 @@ package com.cibertec.springboot.web.app.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.client.DefaultResponseErrorHandler;
+import org.springframework.web.client.RestTemplate;
 
 import com.cibertec.springboot.web.app.models.service.UsuarioDetallesServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+	
+	@Bean
+    public RestTemplate restTemplate() {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
+            @Override
+            protected boolean hasError(HttpStatus statusCode) {
+                return false; // Ignorar los errores de HTTP
+            }
+        });
+        return restTemplate;
+    }
 
 	@Bean
 	public UserDetailsService userDetailsService() {

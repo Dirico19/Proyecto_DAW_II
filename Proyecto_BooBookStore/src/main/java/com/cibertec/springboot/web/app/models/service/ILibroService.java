@@ -1,21 +1,20 @@
 package com.cibertec.springboot.web.app.models.service;
 
-import java.util.List;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import com.cibertec.springboot.web.app.models.entity.*;
+import org.springframework.http.ResponseEntity;
+
+import com.cibertec.springboot.web.app.models.entity.Libro;
 
 public interface ILibroService {
 
-	public List<Libro> findAll();	
+	public Page<Libro> findAll(int page, int size);
 	
-	public Page<Libro> findAll(Pageable pageable);
+	public ResponseEntity<String> save(Libro libro);
 	
-	public void save(Libro libro);
+	public ResponseEntity<String> update(Libro libro);
 	
-	public Libro findOne(Long id);
+	public ResponseEntity<String> findOne(Long id);
 	
-	public void delete(Long id);
+	public ResponseEntity<String> delete(Long id);
 	
-	public void prestarLibro(Libro libro);
 }
