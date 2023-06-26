@@ -31,8 +31,6 @@ import com.cibertec.springboot.web.app.models.entity.Libro;
 import com.cibertec.springboot.web.app.models.service.ICategoriaService;
 import com.cibertec.springboot.web.app.models.service.ILibroService;
 import com.cibertec.springboot.web.app.models.service.IUploadFileService;
-import com.cibertec.springboot.web.app.util.constants.Constant;
-import com.cibertec.springboot.web.app.util.paginator.PageRender;
 import com.google.gson.Gson;
 
 @Controller
@@ -67,20 +65,13 @@ public class LibroController {
 	}
 	
 	@RequestMapping(value="/listado", method = RequestMethod.GET)
-	public String listado(@RequestParam(name="page", defaultValue = "0") 
-
-
-	int page, Model modeloListado, Authentication authentication) {
-		Page<Libro> libros = libroService.findAll(page, Constant.PAGE_SIZE);
-		PageRender<Libro> pageRender = new PageRender<>("/libro/listado", libros);
-		
+	public String listado(@RequestParam(name="page", defaultValue = "0") Integer page, Model modeloListado, Authentication authentication) {
+		Libro[] libros = libroClient.getLibros();
 		modeloListado.addAttribute("titulo", "Listado de Libros");
 		modeloListado.addAttribute("libros", libros);
-		modeloListado.addAttribute("page", pageRender);
-		
 		return "libro/listado";
 	}
-	
+
 	@RequestMapping(value = "/registro")
 	public String registrar(Model model) {
 		model.addAttribute("titulo","Formulario de Libro");
@@ -92,6 +83,9 @@ public class LibroController {
 	@RequestMapping(value = "/guardar", method = RequestMethod.POST)
 	public String guardar(Model model, @Valid @ModelAttribute Libro libro, BindingResult result, @RequestParam("file") MultipartFile foto,
 			SessionStatus status, RedirectAttributes attributes) {
+
+
+
 		if (result.hasErrors()) {
 			model.addAttribute("titulo", "Formulario de Libro");
 			model.addAttribute("categorias", categoriaService.findAll());

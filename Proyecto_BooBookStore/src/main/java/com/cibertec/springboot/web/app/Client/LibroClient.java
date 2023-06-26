@@ -28,6 +28,11 @@ public class LibroClient {
         return response.getBody();
     }
 
-
+    public Libro createLibro(Libro libro) {
+        String url = "http://localhost:8080/api/libros";
+        ResponseEntity<Libro> response = restTemplate.exchange(url, HttpMethod.POST, null,
+                new ParameterizedTypeReference<Libro>() {}, libro);
+        return response.getBody();
+    }
 
 }
