@@ -26,6 +26,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cibertec.springboot.web.app.Client.LibroClient;
 import com.cibertec.springboot.web.app.models.entity.Libro;
 import com.cibertec.springboot.web.app.models.service.ICategoriaService;
 import com.cibertec.springboot.web.app.models.service.ILibroService;
@@ -46,7 +47,10 @@ public class LibroController {
 	private ICategoriaService categoriaService;
 	
 	@Autowired
-	private IUploadFileService uploadFileService;	
+	private IUploadFileService uploadFileService;
+	
+	@Autowired
+	private LibroClient libroClient;
 	
 	@GetMapping(value="/uploads/{filename:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String filename) {		
@@ -64,6 +68,8 @@ public class LibroController {
 	
 	@RequestMapping(value="/listado", method = RequestMethod.GET)
 	public String listado(@RequestParam(name="page", defaultValue = "0") 
+
+
 	int page, Model modeloListado, Authentication authentication) {
 		Page<Libro> libros = libroService.findAll(page, Constant.PAGE_SIZE);
 		PageRender<Libro> pageRender = new PageRender<>("/libro/listado", libros);

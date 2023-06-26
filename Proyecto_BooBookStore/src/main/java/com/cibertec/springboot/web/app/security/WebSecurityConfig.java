@@ -23,7 +23,7 @@ public class WebSecurityConfig {
         restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
             @Override
             protected boolean hasError(HttpStatus statusCode) {
-                return false; // Ignorar los errores de HTTP
+                return false;
             }
         });
         return restTemplate;
