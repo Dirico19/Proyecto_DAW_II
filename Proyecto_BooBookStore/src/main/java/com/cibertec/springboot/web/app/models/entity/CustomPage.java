@@ -4,7 +4,7 @@ import java.util.List;
 
 public class CustomPage<T> {
 
-	private List<Libro> content;
+	private List<T> content;
 	private CustomPageable pageable;
 	private int totalElements;
 	
@@ -29,11 +29,11 @@ public class CustomPage<T> {
 		}
 	}
 
-	public List<Libro> getContent() {
+	public List<T> getContent() {
 		return content;
 	}
 
-	public void setContent(List<Libro> content) {
+	public void setContent(List<T> content) {
 		this.content = content;
 	}
 	

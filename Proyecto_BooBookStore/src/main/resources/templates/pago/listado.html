@@ -40,9 +40,9 @@
 				<tr th:each="pago: ${pagos}">
 					<td th:text="${pago.id}"></td>
 					<td sec:authorize="hasAnyAuthority('Administrador','Mantenimiento')" th:text="${pago.prestamo.socio.nombre} + ' ' + ${pago.prestamo.socio.apellido}"></td>
-					<td th:text="${pago.prestamo.fecPrestamo}"></td>
-					<td th:text="${pago.fecPago}"></td>
-					<td th:text="${pago.prestamo.fecDevolucion}"></td>
+					<td th:text="${#dates.format(pago.prestamo.fecPrestamo,'dd/MM/yyyy')}"></td>
+					<td th:text="${#dates.format(pago.fecPago,'dd/MM/yyyy')}"></td>
+					<td th:text="${#dates.format(pago.prestamo.fecDevolucion,'dd/MM/yyyy')}"></td>
 					<td th:text="${pago.monto}"></td></tr>
 			</tbody>
 		</table>

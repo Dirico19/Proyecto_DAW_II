@@ -40,9 +40,9 @@
 					<td th:text="${prestamo.id}"></td>
 					<td sec:authorize="hasAnyAuthority('Administrador','Mantenimiento')" th:text="${prestamo.socio.nombre} + ' ' + ${prestamo.socio.apellido}"></td>
 					<td th:text="${prestamo.libro.titulo}"></td>
-					<td th:text="${prestamo.fecPrestamo}"></td>
-					<td th:text="${prestamo.fecLimite}"></td>
-					<td th:text="${prestamo.fecDevolucion}"></td>	
+					<td th:text="${#dates.format(prestamo.fecPrestamo,'dd/MM/yyyy')}"></td>
+					<td th:text="${#dates.format(prestamo.fecLimite, 'dd/MM/yyyy')}"></td>
+					<td th:text="${#dates.format(prestamo.fecDevolucion, 'dd/MM/yyyy')}"></td>	
 					<td th:text="${prestamo.estado}"></td>	
 					<td th:text="${prestamo.mora}"></td>
 					<td sec:authorize="hasAnyAuthority('Socio')">

@@ -6,8 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -27,6 +25,7 @@ import com.cibertec.springboot.web.app.models.entity.Prestamo;
 import com.cibertec.springboot.web.app.models.entity.Socio;
 import com.cibertec.springboot.web.app.models.service.ILibroService;
 import com.cibertec.springboot.web.app.models.service.IPrestamoService;
+import com.cibertec.springboot.web.app.util.constants.Constant;
 import com.cibertec.springboot.web.app.util.paginator.PageRender;
 import com.google.gson.Gson;
 
@@ -131,8 +130,7 @@ public class PrestamoController {
 			model.addAttribute("titulo", "Mis Préstamos");
 		}
 		else {
-			Pageable pageRequest = PageRequest.of(page, 5);
-			Page<Prestamo> prestamos = prestamoService.findAll(pageRequest);
+			Page<Prestamo> prestamos = prestamoService.findAll(page, Constant.PAGE_SIZE);
 			PageRender<Prestamo> pageRender = new PageRender<>("/prestamo/listado", prestamos);
 			model.addAttribute("prestamos", prestamos);
 			model.addAttribute("titulo", "Listado de Préstamos");

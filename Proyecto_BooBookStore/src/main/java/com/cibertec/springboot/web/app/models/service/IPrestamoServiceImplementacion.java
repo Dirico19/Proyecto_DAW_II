@@ -5,14 +5,22 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.cibertec.springboot.web.app.models.DAO.LibroRepository;
 import com.cibertec.springboot.web.app.models.DAO.PrestamoRepository;
+import com.cibertec.springboot.web.app.models.entity.CustomPage;
 import com.cibertec.springboot.web.app.models.entity.Libro;
 import com.cibertec.springboot.web.app.models.entity.Prestamo;
+import com.cibertec.springboot.web.app.util.constants.Constant;
 
 @Service
 public class IPrestamoServiceImplementacion implements IPrestamoService {
@@ -21,15 +29,23 @@ public class IPrestamoServiceImplementacion implements IPrestamoService {
 	private PrestamoRepository prestamoRepository;
 	@Autowired
 	private LibroRepository libroRepository;
+	@Autowired
+	private RestTemplate restTemplate;
 	
-	@Override
-	public List<Prestamo> findAll() {
-		return prestamoRepository.findAll();
-	}
+	private final String BASIC_URL = Constant.API_URL + "/prestamos";
 
 	@Override
-	public Page<Prestamo> findAll(Pageable pageable) {
-		return prestamoRepository.findAll(pageable);
+	public Page<Prestamo> findAll(int page, int size) {
+		String url = BASIC_URL + "?page=" + page + "&size=" + size;
+		ParameterizedTypeReference<CustomPage<Prestamo>> responseType = new ParameterizedTypeReference<CustomPage<Prestamo>>() {};
+		ResponseEntity<CustomPage<Prestamo>> response = restTemplate.exchange(url, HttpMethod.GET, null, responseType);
+		CustomPage<Prestamo> customPage = response.getBody();
+		List<Prestamo> listaPrestamos = customPage.getContent();
+		System.out.println(customPage.getPageable().getPageNumber() + " - " + customPage.getPageable().getPageSize());
+		Pageable pageable = PageRequest.of(customPage.getPageable().getPageNumber(), customPage.getPageable().getPageSize());
+		int totalElements = customPage.getTotalElements();
+		Page<Prestamo> prestamos = new PageImpl<>(listaPrestamos, pageable, totalElements);
+		return prestamos;
 	}
 
 	@Override
